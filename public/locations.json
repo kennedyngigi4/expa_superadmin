@@ -1,0 +1,32 @@
+const locations: Location[] = [
+    {
+    id: 1,
+    lat: -1.244421,
+    lng: 36.821732,
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/190/190411.png", // Shop icon
+    },
+    {
+    id: 2,
+    lat: -1.292066,
+    lng: 36.821945,
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/854/854878.png", // Restaurant icon
+    },
+    {
+    id: 3,
+    lat: -1.284452,
+    lng: 36.813085,
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/2967/2967483.png", // Hospital icon
+    },
+    {
+    id: 4,
+    lat: -1.300834,
+    lng: 36.799134,
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/1532/1532670.png", // Warehouse icon
+    },
+    {
+    id: 5,
+    lat: -1.280117,
+    lng: 36.827450,
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/2356/2356786.png", // Office icon
+    },
+];
