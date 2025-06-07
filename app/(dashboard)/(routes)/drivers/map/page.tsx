@@ -2,14 +2,24 @@
 
 import React, { useEffect, useState } from 'react'
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api"
+import { useSession } from 'next-auth/react';
+import apiservices from '@/lib/apiservice';
 
 
 type Location = {
-    id: number;
-    lat: number;
-    lng: number;
+    latitude: any;
+    longitude: any;
+    vehicle_type: string;
+    vehicle_registration: string;
+}
+
+type Driver = {
+    uid: string;
+    fullname: string;
+    email: string;
+    phone: string;
     iconUrl: string;
-    driverType: "motorbike" | "truck";
+    driverlocation: Location;
 };
 
 
@@ -23,52 +33,23 @@ const center = {
     lng: 36.8219,
 };
 
-
-
-const locations: Location[] = [
-    {
-        id: 1,
-        lat: -1.2833,
-        lng: 36.8167,
-        iconUrl: "/icons/motorbike.png", // Motorbike icon
-        driverType: "motorbike",
-    },
-    {
-        id: 2,
-        lat: -1.2950,
-        lng: 36.8220,
-        iconUrl: "/icons/motorbike.png",
-        driverType: "motorbike",
-    },
-    {
-        id: 3,
-        lat: -1.3001,
-        lng: 36.8085,
-        iconUrl: "/icons/truck.png", // Truck icon
-        driverType: "truck",
-    },
-    {
-        id: 4,
-        lat: -1.2700,
-        lng: 36.8300,
-        iconUrl: "/icons/truck.png",
-        driverType: "truck",
-    },
-    {
-        id: 5,
-        lat: -1.2788,
-        lng: 36.8169,
-        iconUrl: "/icons/motorbike.png",
-        driverType: "motorbike",
-    },
-];
-
-
-
-
-
 const DriversMap = () => {
     // const [locations, setLocations] = useState<Location[]>([]);
+    const { data:session, status } = useSession();
+    const [drivers, setDrivers] = useState<Driver[]>([]);
+    
+    useEffect(() => {
+    const loadEmployees = async () => {
+        if (!session?.accessToken) {
+        throw new Error("You need to have a token, please login");
+        }
+
+        const data = await apiservices.get("account/drivers/", session?.accessToken);
+        console.log(data);
+        setDrivers(data)
+    }
+    loadEmployees();
+    }, [session]);
 
     const { isLoaded } = useJsApiLoader({
         id: "google-map-script",
@@ -80,14 +61,14 @@ const DriversMap = () => {
     return isLoaded ? (
         <section className="h-screen">
         <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={14}>
-            {locations.map((loc) => (
+            {drivers.map((driver) => (
                 <Marker
-                    key={loc.id}
+                    key={driver.uid}
                     // position={{ lat: loc.lat, lng: loc.lng }}
-                    position={{ lat: loc.lat, lng: loc.lng }}
+                    position={{ lat: driver.driverlocation.latitude, lng: driver.driverlocation.longitude }}
                     icon={{
-                        url: loc.iconUrl,
-                        scaledSize: new window.google.maps.Size(40, 40),
+                        url: `/icons/${driver.driverlocation.vehicle_type.toLowerCase()}.png`,
+                        scaledSize: new window.google.maps.Size(35, 35),
                     }}
                     onLoad={(marker) => {
                         console.log("Loaded marker", marker);
