@@ -113,10 +113,10 @@ const UserIdPage = () => {
         console.log(res)
         if (res.success) {
             toast.success("Updated", { position: "top-center" });
-            // window.location.reload();
+            window.location.reload();
         } else {
             toast.error("Failed, try again.", { position: "top-center" });
-            // window.location.reload();
+            window.location.reload();
         }
     }
 
