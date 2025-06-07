@@ -60,12 +60,12 @@ const DriversMap = () => {
 
     return isLoaded ? (
         <section className="h-screen">
-        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={14}>
+        <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
             {drivers.map((driver) => (
                 <Marker
                     key={driver.uid}
                     // position={{ lat: loc.lat, lng: loc.lng }}
-                    position={{ lat: driver.driverlocation.latitude, lng: driver.driverlocation.longitude }}
+                    position={{ lat: parseFloat(driver.driverlocation.latitude), lng: parseFloat(driver.driverlocation.longitude) }}
                     icon={{
                         url: `/icons/${driver.driverlocation.vehicle_type.toLowerCase()}.png`,
                         scaledSize: new window.google.maps.Size(35, 35),
