@@ -102,7 +102,6 @@ const UserIdPage = () => {
             driverlocation: {
                 "vehicle_type": driverVehicleType,
                 "vehicle_registration": driverVehicleReg,
-
             }
         }
 
@@ -111,6 +110,7 @@ const UserIdPage = () => {
         }
 
         const res = await apiservices.patch(`account/admin/updateuser/${params?.userId}/`, session.accessToken, data);
+        console.log(res)
         if (res.success) {
             toast.success("Updated", { position: "top-center" });
             window.location.reload();
